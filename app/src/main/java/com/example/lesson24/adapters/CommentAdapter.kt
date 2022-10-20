@@ -10,7 +10,7 @@ import com.example.lesson24.models.CommentInfo
 class CommentAdapter(
     private val commentListener: CommentListener,
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
-    private var commentList = ArrayList<CommentInfo>()
+    private var commentList = listOf<CommentInfo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,7 +26,7 @@ class CommentAdapter(
         return commentList.size
     }
 
-    fun setListComment(listComment: ArrayList<CommentInfo>) {
+    fun setListComment(listComment: List<CommentInfo>) {
         commentList = listComment
         notifyDataSetChanged()
     }
@@ -42,17 +42,17 @@ class CommentAdapter(
             binding.rate.text = commentItem.rate.toString()
 
             binding.btnLike.setOnClickListener {
-                setItem(commentItem, true)
-                sendItem(commentItem)
+                updateCommentRate(commentItem, true)
+                notifyCommentListener(commentItem)
             }
 
             binding.btnDislike.setOnClickListener {
-                setItem(commentItem, false)
-                sendItem(commentItem)
+                updateCommentRate(commentItem, false)
+                notifyCommentListener(commentItem)
             }
         }
 
-        private fun setItem(commentItem: CommentInfo, isLike: Boolean) {
+        private fun updateCommentRate(commentItem: CommentInfo, isLike: Boolean) {
             when {
                 isLike -> {
                     commentItem.rate++
@@ -65,7 +65,7 @@ class CommentAdapter(
             binding.rate.text = commentItem.rate.toString()
         }
 
-        private fun sendItem(commentItem: CommentInfo) {
+        private fun notifyCommentListener(commentItem: CommentInfo) {
             commentListener.onClickRate(commentItem.id, commentItem.rate)
         }
     }

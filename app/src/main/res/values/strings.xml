@@ -15,4 +15,6 @@
     <string name="error_io">IO exception</string>
     <string name="error_unknown">Unknown error in database</string>
 
+    <string name="error_no_id">Can not find id</string>
+
 </resources>

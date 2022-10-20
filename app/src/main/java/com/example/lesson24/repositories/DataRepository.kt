@@ -1,10 +1,11 @@
 package com.example.lesson24.repositories
 
 import android.database.sqlite.SQLiteDatabase
+import bolts.CancellationToken
+import bolts.Task
 import com.example.lesson24.models.CommentInfo
 import com.example.lesson24.models.PostInfo
 import com.example.lesson24.models.PostStatistic
-import kotlin.collections.ArrayList
 
 class DataRepository(private val db: SQLiteDatabase) {
     companion object {
@@ -23,8 +24,10 @@ class DataRepository(private val db: SQLiteDatabase) {
         private const val COMMENT_RATE = "comment_rate"
     }
 
-    fun getAllPosts(): ArrayList<PostInfo> {
-        val listPost = ArrayList<PostInfo>()
+    private val statementComment = db.compileStatement("UPDATE comment SET rate = ? WHERE _id = ?")
+
+    private fun getAllPosts(): List<PostInfo> {
+        val listPost = mutableListOf<PostInfo>()
 
         val cursor = db.rawQuery(
             "SELECT p._id as $POST_ID, p.title as $TITLE, p.body as $BODY, " +
@@ -59,8 +62,8 @@ class DataRepository(private val db: SQLiteDatabase) {
         return listPost
     }
 
-    fun getAllComment(idCurrentPost: Long?): ArrayList<CommentInfo> {
-        val listComment = ArrayList<CommentInfo>()
+    private fun getAllComments(idCurrentPost: Long): List<CommentInfo> {
+        val listComment = mutableListOf<CommentInfo>()
 
         val cursor = db.rawQuery(
             "SELECT u.email as $EMAIL_COMMENTATOR," +
@@ -70,7 +73,7 @@ class DataRepository(private val db: SQLiteDatabase) {
                     "WHERE p._id = ?" +
                     "ORDER BY c._id ASC",
             arrayOf(
-                idCurrentPost?.toString()
+                idCurrentPost.toString()
             )
         )
 
@@ -97,8 +100,8 @@ class DataRepository(private val db: SQLiteDatabase) {
         return listComment
     }
 
-    fun getAllPostsStatistic(): ArrayList<PostStatistic> {
-        val listPostStatistic = java.util.ArrayList<PostStatistic>()
+    private fun getAllPostsStatistic(): List<PostStatistic> {
+        val listPostStatistic = mutableListOf<PostStatistic>()
 
         val cursor = db.rawQuery(
             "SELECT p.title AS $POST_TITLE, COUNT(c._id) AS $COMMENT_COUNT, AVG(c.rate) as $COMMENT_RATE " +
@@ -131,12 +134,48 @@ class DataRepository(private val db: SQLiteDatabase) {
         return listPostStatistic
     }
 
-    fun updateRateComment(id: Long, rate: Long) {
-        val statementComment = db.compileStatement("UPDATE comment SET rate = ? WHERE _id = ?")
-
+    private fun updateRateComment(id: Long, rate: Long) {
         statementComment.apply {
             bindLong(1, rate)
             bindLong(2, id)
         }.executeUpdateDelete()
+    }
+    
+    fun getAllPostsTask(
+        cancellationToken: CancellationToken,
+    ): Task<List<PostInfo>> {
+        return Task
+            .callInBackground({
+                getAllPosts()
+            }, cancellationToken)
+    }
+
+    fun getAllCommentTask(
+        cancellationToken: CancellationToken,
+        idCurrentPost: Long
+    ): Task<List<CommentInfo>> {
+        return Task
+            .callInBackground({
+                getAllComments(idCurrentPost)
+            }, cancellationToken)
+    }
+
+    fun getAllPostStatisticTask(
+        cancellationToken: CancellationToken,
+    ): Task<List<PostStatistic>> {
+        return Task
+            .callInBackground({
+                getAllPostsStatistic()
+            }, cancellationToken)
+    }
+
+    fun updateCurrentCommentTask(
+        cancellationToken: CancellationToken,
+        idComment: Long,
+        commentRate: Long
+    ): Task<Unit> {
+        return Task.callInBackground({
+            updateRateComment(idComment, commentRate)
+        }, cancellationToken)
     }
 }

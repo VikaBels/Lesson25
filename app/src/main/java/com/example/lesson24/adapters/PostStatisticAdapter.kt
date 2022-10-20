@@ -9,7 +9,7 @@ import com.example.lesson24.databinding.ItemPostStatisticBinding
 import com.example.lesson24.models.PostStatistic
 
 class PostStatisticAdapter : RecyclerView.Adapter<PostStatisticAdapter.PostStatisticViewHolder>() {
-    private var postStatisticList = ArrayList<PostStatistic>()
+    private var postStatisticList = listOf<PostStatistic>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostStatisticViewHolder {
         val binding =
@@ -26,7 +26,7 @@ class PostStatisticAdapter : RecyclerView.Adapter<PostStatisticAdapter.PostStati
         return postStatisticList.size
     }
 
-    fun setListStatistic(listStatistic: ArrayList<PostStatistic>) {
+    fun setListStatistic(listStatistic: List<PostStatistic>) {
         postStatisticList = listStatistic
         notifyDataSetChanged()
     }

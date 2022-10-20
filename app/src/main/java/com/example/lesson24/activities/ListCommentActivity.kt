@@ -5,23 +5,22 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lesson24.App
+import com.example.lesson24.App.Companion.getDataRepository
 import com.example.lesson24.R
 import com.example.lesson24.activities.DetailPostActivity.Companion.KEY_SEND_ID_POST
 import com.example.lesson24.adapters.CommentAdapter
 import com.example.lesson24.databinding.ActivityListCommentBinding
 import com.example.lesson24.factories.CommentViewModelFactory
 import com.example.lesson24.listeners.CommentListener
-import com.example.lesson24.repositories.DataRepository
-import com.example.lesson24.viewModel.CommentViewModel
+import com.example.lesson24.viewModels.CommentViewModel
 
 class ListCommentActivity : AppCompatActivity(), CommentListener {
     private var bindingListComment: ActivityListCommentBinding? = null
-    private var commentAdapter: CommentAdapter? = null
+    private var commentAdapter = CommentAdapter(this)
 
     private val commentViewModel by viewModels<CommentViewModel> {
         CommentViewModelFactory(
-            DataRepository(App.getDb()),
+            getDataRepository(),
             getIdCurrentPost()
         )
     }
@@ -33,7 +32,6 @@ class ListCommentActivity : AppCompatActivity(), CommentListener {
         setContentView(bindingListComment.root)
 
         this.bindingListComment = bindingListComment
-        commentAdapter = CommentAdapter(this)
 
         setUpAdapter()
 
@@ -45,7 +43,6 @@ class ListCommentActivity : AppCompatActivity(), CommentListener {
     override fun onDestroy() {
         super.onDestroy()
         bindingListComment = null
-        commentAdapter = null
     }
 
     override fun onClickRate(idComment: Long, commentRate: Long) {
@@ -63,7 +60,7 @@ class ListCommentActivity : AppCompatActivity(), CommentListener {
             if (listComment.isEmpty()) {
                 setTextError(R.string.text_no_comment)
             } else {
-                commentAdapter?.setListComment(listComment)
+                commentAdapter.setListComment(listComment)
             }
         }
     }

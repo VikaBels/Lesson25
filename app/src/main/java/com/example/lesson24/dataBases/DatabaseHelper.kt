@@ -8,7 +8,6 @@ import com.example.lesson24.utils.listComment
 import com.example.lesson24.utils.listPost
 import com.example.lesson24.utils.listUser
 
-//Add helper function executeUpdateDelete(), executeInsert()
 class DatabaseHelper(
     context: Context
 ) : SQLiteOpenHelper(context, DATABASE_NAME, null, DB_VERSION) {

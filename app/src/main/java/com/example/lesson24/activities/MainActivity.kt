@@ -6,15 +6,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lesson24.App
+import com.example.lesson24.App.Companion.getDataRepository
 import com.example.lesson24.R
 import com.example.lesson24.adapters.PostAdapter
 import com.example.lesson24.databinding.ActivityMainBinding
 import com.example.lesson24.factories.MainViewModelFactory
 import com.example.lesson24.listeners.PostListener
 import com.example.lesson24.models.PostInfo
-import com.example.lesson24.repositories.DataRepository
-import com.example.lesson24.viewModel.MainViewModel
+import com.example.lesson24.viewModels.MainViewModel
 
 class MainActivity : AppCompatActivity(), PostListener {
     companion object {
@@ -22,11 +21,11 @@ class MainActivity : AppCompatActivity(), PostListener {
     }
 
     private var bindingMain: ActivityMainBinding? = null
-    private var postAdapter: PostAdapter? = null
+    private var postAdapter = PostAdapter(this)
 
     private val mainViewModel by viewModels<MainViewModel> {
         MainViewModelFactory(
-            DataRepository(App.getDb())
+            getDataRepository()
         )
     }
 
@@ -37,7 +36,6 @@ class MainActivity : AppCompatActivity(), PostListener {
         setContentView(bindingMain.root)
 
         this.bindingMain = bindingMain
-        postAdapter = PostAdapter(this)
 
         setUpAdapter()
 
@@ -51,7 +49,6 @@ class MainActivity : AppCompatActivity(), PostListener {
     override fun onDestroy() {
         super.onDestroy()
         bindingMain = null
-        postAdapter = null
     }
 
     override fun onClickPost(postItem: PostInfo) {
@@ -82,7 +79,7 @@ class MainActivity : AppCompatActivity(), PostListener {
             if (listPost.isEmpty()) {
                 setTextError(R.string.txt_no_post)
             } else {
-                postAdapter?.setListItems(listPost)
+                postAdapter.setListItems(listPost)
             }
         }
     }

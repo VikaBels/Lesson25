@@ -10,7 +10,7 @@ import com.example.lesson24.listeners.PostListener
 class PostAdapter(
     private val postListener: PostListener,
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-    private var postList = ArrayList<PostInfo>()
+    private var postList = listOf<PostInfo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,14 +26,14 @@ class PostAdapter(
         return postList.size
     }
 
-    fun setListItems(listPost: ArrayList<PostInfo>) {
+    fun setListItems(listPost: List<PostInfo>) {
         postList = listPost
         notifyDataSetChanged()
     }
 
     class PostViewHolder(
         private val binding: ItemBinding,
-        private val listener: PostListener
+        private val postListener: PostListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(postItem: PostInfo) {
@@ -42,12 +42,12 @@ class PostAdapter(
             binding.body.text = postItem.body
 
             binding.oneItem.setOnClickListener {
-                sendItem(postItem)
+                notifyPostListener(postItem)
             }
         }
 
-        private fun sendItem(postItem: PostInfo) {
-            listener.onClickPost(postItem)
+        private fun notifyPostListener(postItem: PostInfo) {
+            postListener.onClickPost(postItem)
         }
     }
 }

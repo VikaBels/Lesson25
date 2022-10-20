@@ -3,6 +3,7 @@ package com.example.lesson24
 import android.app.Application
 import android.database.sqlite.SQLiteDatabase
 import com.example.lesson24.dataBases.DatabaseHelper
+import com.example.lesson24.repositories.DataRepository
 
 class App : Application() {
     override fun onCreate() {
@@ -23,8 +24,8 @@ class App : Application() {
             return self
         }
 
-        fun getDb(): SQLiteDatabase {
-            return db
+        fun getDataRepository(): DataRepository {
+            return DataRepository(db)
         }
     }
 }

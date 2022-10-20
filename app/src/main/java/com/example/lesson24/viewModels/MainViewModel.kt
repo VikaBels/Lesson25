@@ -1,5 +1,6 @@
-package com.example.lesson24.viewModel
+package com.example.lesson24.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import bolts.CancellationTokenSource
@@ -7,7 +8,6 @@ import bolts.Task
 import com.example.lesson24.models.PostInfo
 import com.example.lesson24.models.UIError
 import com.example.lesson24.repositories.DataRepository
-import com.example.lesson24.tasks.GetAllPostsTask
 import com.example.lesson24.utils.getIdError
 
 class MainViewModel(
@@ -15,8 +15,14 @@ class MainViewModel(
 ) : ViewModel() {
     private val cancellationTokenSourceMain = CancellationTokenSource()
 
-    var listPost = MutableLiveData<ArrayList<PostInfo>>()
-    var error = MutableLiveData<UIError>()
+    private var listPostInfo = MutableLiveData<List<PostInfo>>()
+    private var uiError = MutableLiveData<UIError>()
+
+    val listPost: LiveData<List<PostInfo>>
+        get() = listPostInfo
+
+    val error: LiveData<UIError>
+        get() = uiError
 
     init {
         startMainTask()
@@ -28,15 +34,17 @@ class MainViewModel(
     }
 
     private fun startMainTask() {
-        GetAllPostsTask().startTask(
+        dataRepository.getAllPostsTask(
             cancellationTokenSourceMain.token,
-            dataRepository
         ).continueWith({
 
-            listPost.value = it.result
+            if(it.result != null){
+                listPostInfo.value = it.result
+
+            }
 
             if (it.error != null) {
-                error.value?.textId = getIdError(it.error)
+                uiError.value = UIError(getIdError(it.error))
             }
 
         }, Task.UI_THREAD_EXECUTOR)

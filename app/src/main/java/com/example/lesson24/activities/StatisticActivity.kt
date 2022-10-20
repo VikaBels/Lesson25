@@ -5,13 +5,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lesson24.App
+import com.example.lesson24.App.Companion.getDataRepository
 import com.example.lesson24.R
 import com.example.lesson24.adapters.PostStatisticAdapter
 import com.example.lesson24.databinding.ActivityStatisticBinding
 import com.example.lesson24.factories.StatisticViewModelFactory
-import com.example.lesson24.repositories.DataRepository
-import com.example.lesson24.viewModel.StatisticViewModel
+import com.example.lesson24.viewModels.StatisticViewModel
 
 class StatisticActivity : AppCompatActivity() {
     private var bindingStatistic: ActivityStatisticBinding? = null
@@ -19,7 +18,7 @@ class StatisticActivity : AppCompatActivity() {
 
     private val statisticViewModel by viewModels<StatisticViewModel> {
         StatisticViewModelFactory(
-            DataRepository(App.getDb())
+            getDataRepository()
         )
     }
 
