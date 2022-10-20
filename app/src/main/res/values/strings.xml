@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Lesson25</string>
+
+    <string name="comments">Comments</string>
+    <string name="text_no_comment">This post haven\'t comment</string>
+    <string name="txt_no_post">This database haven\'t post</string>
+    <string name="txt_no_info_about_post">No info about post</string>
+    <string name="statistic">Statistic</string>
+
+    <string name="post_title">Post title: %s</string>
+    <string name="quantity_comment">Comment quantity: %s</string>
+    <string name="average_comment_rating">Comment average rating: %s</string>
+
+    <string name="error_sqlite">SQLite exception</string>
+    <string name="error_io">IO exception</string>
+    <string name="error_unknown">Unknown error in database</string>
+
+</resources>
