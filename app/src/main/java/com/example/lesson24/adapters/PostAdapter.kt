@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson24.databinding.ItemBinding
-import com.example.lesson24.models.PostInfo
 import com.example.lesson24.listeners.PostListener
+import com.example.lesson24.models.PostInfo
 
 class PostAdapter(
     private val postListener: PostListener,
@@ -47,7 +47,7 @@ class PostAdapter(
         }
 
         private fun notifyPostListener(postItem: PostInfo) {
-            postListener.onClickPost(postItem)
+            postListener.onPostClick(postItem)
         }
     }
 }

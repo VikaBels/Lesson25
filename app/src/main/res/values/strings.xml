@@ -17,4 +17,6 @@
 
     <string name="error_no_id">Can not find id</string>
 
+    <string name="exceptionInterface">должен реализовывать интерфейс</string>
+
 </resources>

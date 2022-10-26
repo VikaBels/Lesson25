@@ -8,7 +8,7 @@ import com.example.lesson24.listeners.CommentListener
 import com.example.lesson24.models.CommentInfo
 
 class CommentAdapter(
-    private val commentListener: CommentListener,
+    private val commentListener: CommentListener?,
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
     private var commentList = listOf<CommentInfo>()
 
@@ -33,7 +33,7 @@ class CommentAdapter(
 
     class CommentViewHolder(
         private val binding: ItemCommentBinding,
-        private val commentListener: CommentListener,
+        private val commentListener: CommentListener?,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(commentItem: CommentInfo) {
@@ -66,7 +66,7 @@ class CommentAdapter(
         }
 
         private fun notifyCommentListener(commentItem: CommentInfo) {
-            commentListener.onClickRate(commentItem.id, commentItem.rate)
+            commentListener?.onClickRate(commentItem.id, commentItem.rate)
         }
     }
 }

@@ -4,5 +4,5 @@ import com.example.lesson24.models.PostInfo
 
 interface PostListener {
 
-    fun onClickPost(postItem: PostInfo)
+    fun onPostClick(postInfo: PostInfo)
 }
