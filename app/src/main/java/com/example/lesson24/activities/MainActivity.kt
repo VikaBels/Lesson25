@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity(),
         this.bindingMain = bindingMain
 
         if (savedInstanceState == null) {
-            val fragment = ListPostFragment.newInstance()
-            showFragment(TAG_FOR_LIST_POST, null, fragment)
+            showListPost()
         }
     }
 
@@ -58,6 +57,11 @@ class MainActivity : AppCompatActivity(),
     override fun showComments(idPost: Long) {
         val fragmentListComment = ListCommentFragment.newInstance(idPost)
         showFragment(TAG_FOR_LIST_COMMENT, TAG_FOR_LIST_POST, fragmentListComment)
+    }
+
+    private fun showListPost(){
+        val fragment = ListPostFragment.newInstance()
+        showFragment(TAG_FOR_LIST_POST, null, fragment)
     }
 
     private fun showFragment(
