@@ -15,7 +15,7 @@ import com.example.lesson24.adapters.CommentAdapter
 import com.example.lesson24.databinding.FragmentListCommentBinding
 import com.example.lesson24.factories.CommentViewModelFactory
 import com.example.lesson24.listeners.CommentListener
-import com.example.lesson24.viewModels.CommentViewModel
+import com.example.lesson24.viewmodels.CommentViewModel
 
 class ListCommentFragment : Fragment(), CommentListener {
     companion object {
@@ -46,6 +46,12 @@ class ListCommentFragment : Fragment(), CommentListener {
         val bindingListCommentFragment = FragmentListCommentBinding.inflate(layoutInflater)
         this.bindingListCommentFragment = bindingListCommentFragment
 
+        return bindingListCommentFragment.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         commentAdapter = CommentAdapter(this)
 
         setUpAdapter()
@@ -53,8 +59,6 @@ class ListCommentFragment : Fragment(), CommentListener {
         observeErrorDB()
 
         observeListComment()
-
-        return bindingListCommentFragment.root
     }
 
     override fun onDestroyView() {

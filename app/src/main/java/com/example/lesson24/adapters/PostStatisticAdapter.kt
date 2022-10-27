@@ -2,11 +2,13 @@ package com.example.lesson24.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson24.App.Companion.getInstance
 import com.example.lesson24.R
 import com.example.lesson24.databinding.ItemPostStatisticBinding
 import com.example.lesson24.models.PostStatistic
+import com.example.lesson24.callbacks.DiffUtilsStatisticCallBack
 
 class PostStatisticAdapter : RecyclerView.Adapter<PostStatisticAdapter.PostStatisticViewHolder>() {
     private var postStatisticList = listOf<PostStatistic>()
@@ -27,8 +29,12 @@ class PostStatisticAdapter : RecyclerView.Adapter<PostStatisticAdapter.PostStati
     }
 
     fun setListStatistic(listStatistic: List<PostStatistic>) {
+        val result = DiffUtil.calculateDiff(
+            DiffUtilsStatisticCallBack(postStatisticList, listStatistic), false
+        )
+
         postStatisticList = listStatistic
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
     }
 
     class PostStatisticViewHolder(

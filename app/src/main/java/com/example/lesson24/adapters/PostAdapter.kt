@@ -2,10 +2,12 @@ package com.example.lesson24.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson24.databinding.ItemBinding
 import com.example.lesson24.listeners.PostListener
 import com.example.lesson24.models.PostInfo
+import com.example.lesson24.callbacks.DiffUtilsPostCallBack
 
 class PostAdapter(
     private val postListener: PostListener,
@@ -27,8 +29,12 @@ class PostAdapter(
     }
 
     fun setListItems(listPost: List<PostInfo>) {
+        val result = DiffUtil.calculateDiff(
+            DiffUtilsPostCallBack(postList, listPost), false
+        )
+
         postList = listPost
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
     }
 
     class PostViewHolder(

@@ -46,42 +46,43 @@ class MainActivity : AppCompatActivity(),
 
     override fun showStatistic() {
         val fragmentStatistic = StatisticFragment.newInstance()
-        showFragment(TAG_FOR_STATISTIC, TAG_FOR_LIST_POST, fragmentStatistic)
+        showFragment(TAG_FOR_STATISTIC, fragmentStatistic)
     }
 
     override fun showDetailPost(postInfo: PostInfo) {
         val fragmentDetailPost = DetailPostFragment.newInstance(postInfo)
-        showFragment(TAG_FOR_DETAIL_POST, TAG_FOR_LIST_POST, fragmentDetailPost)
+        showFragment(TAG_FOR_DETAIL_POST, fragmentDetailPost)
     }
 
     override fun showComments(idPost: Long) {
         val fragmentListComment = ListCommentFragment.newInstance(idPost)
-        showFragment(TAG_FOR_LIST_COMMENT, TAG_FOR_LIST_POST, fragmentListComment)
+        showFragment(TAG_FOR_LIST_COMMENT, fragmentListComment)
     }
 
-    private fun showListPost(){
+    private fun showListPost() {
         val fragment = ListPostFragment.newInstance()
-        showFragment(TAG_FOR_LIST_POST, null, fragment)
+        showFragment(TAG_FOR_LIST_POST, fragment)
     }
 
     private fun showFragment(
         tag: String,
-        clearToTag: String?,
         fragment: Fragment,
     ) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
 
-        if (clearToTag != null) {
-            fragmentManager.popBackStack(
-                clearToTag,
-                0
-            )
+        when (tag) {
+            TAG_FOR_LIST_POST -> {
+                transaction.replace(R.id.container, fragment, tag)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit()
+            }
+            else -> {
+                transaction.replace(R.id.container, fragment, tag)
+                    .addToBackStack(tag)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit()
+            }
         }
-
-        transaction.replace(R.id.container, fragment, tag)
-            .addToBackStack(tag)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
     }
 }

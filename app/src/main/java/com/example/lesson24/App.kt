@@ -1,8 +1,7 @@
 package com.example.lesson24
 
 import android.app.Application
-import android.database.sqlite.SQLiteDatabase
-import com.example.lesson24.dataBases.DatabaseHelper
+import com.example.lesson24.databases.DatabaseHelper
 import com.example.lesson24.repositories.DataRepository
 
 class App : Application() {
@@ -12,20 +11,20 @@ class App : Application() {
         self = this
 
         dbOpenHelper = DatabaseHelper(this)
-        db = dbOpenHelper.writableDatabase
+        dataRepository = DataRepository(dbOpenHelper.writableDatabase)
     }
 
     companion object {
         private lateinit var self: App
         private lateinit var dbOpenHelper: DatabaseHelper
-        private lateinit var db: SQLiteDatabase
+        private lateinit var dataRepository: DataRepository
 
         fun getInstance(): App {
             return self
         }
 
         fun getDataRepository(): DataRepository {
-            return DataRepository(db)
+            return dataRepository
         }
     }
 }

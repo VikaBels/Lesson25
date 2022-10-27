@@ -24,7 +24,8 @@ class DataRepository(private val db: SQLiteDatabase) {
         private const val COMMENT_RATE = "comment_rate"
     }
 
-    private val statementComment = db.compileStatement("UPDATE comment SET rate = ? WHERE _id = ?")
+    private val statementUpdateCommentRate =
+        db.compileStatement("UPDATE comment SET rate = ? WHERE _id = ?")
 
     private fun getAllPosts(): List<PostInfo> {
         val listPost = mutableListOf<PostInfo>()
@@ -135,12 +136,12 @@ class DataRepository(private val db: SQLiteDatabase) {
     }
 
     private fun updateRateComment(id: Long, rate: Long) {
-        statementComment.apply {
+        statementUpdateCommentRate.apply {
             bindLong(1, rate)
             bindLong(2, id)
         }.executeUpdateDelete()
     }
-    
+
     fun getAllPostsTask(
         cancellationToken: CancellationToken,
     ): Task<List<PostInfo>> {

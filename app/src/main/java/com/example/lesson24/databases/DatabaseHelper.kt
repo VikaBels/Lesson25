@@ -1,4 +1,4 @@
-package com.example.lesson24.dataBases
+package com.example.lesson24.databases
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -122,7 +122,7 @@ class DatabaseHelper(
     }
 
     private fun addIndexesUserTable(db: SQLiteDatabase) {
-        db.compileStatement("CREATE INDEX user_name ON user (first_name, last_name)").execute()
+        db.execSQL("CREATE INDEX user_name ON user (first_name, last_name)")
     }
 
     private fun changeUserTable(db: SQLiteDatabase) {
@@ -144,20 +144,17 @@ class DatabaseHelper(
     }
 
     private fun changeCommentTable(db: SQLiteDatabase) {
-        db.compileStatement("ALTER TABLE comment ADD COLUMN rate INTEGER NOT NULL default 0")
-            .executeUpdateDelete()
+        db.execSQL(
+            "ALTER TABLE comment ADD COLUMN rate INTEGER NOT NULL default 0"
+        )
     }
 
     private fun executeUpdateDeleteMethod(db: SQLiteDatabase, sqlUpdate: String) {
-        db.compileStatement(
-            sqlUpdate
-        ).executeUpdateDelete()
+        db.execSQL(sqlUpdate)
     }
 
     private fun executeMethod(db: SQLiteDatabase, sqlCreate: String) {
-        db.compileStatement(
-            sqlCreate
-        ).execute()
+        db.execSQL(sqlCreate)
     }
 
     private fun compileStatementCreator(db: SQLiteDatabase, sqlInsert: String): SQLiteStatement {

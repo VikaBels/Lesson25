@@ -2,10 +2,12 @@ package com.example.lesson24.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson24.databinding.ItemCommentBinding
 import com.example.lesson24.listeners.CommentListener
 import com.example.lesson24.models.CommentInfo
+import com.example.lesson24.callbacks.DiffUtilsCommentCallBack
 
 class CommentAdapter(
     private val commentListener: CommentListener,
@@ -27,8 +29,12 @@ class CommentAdapter(
     }
 
     fun setListComment(listComment: List<CommentInfo>) {
+        val result = DiffUtil.calculateDiff(
+            DiffUtilsCommentCallBack(commentList, listComment), false
+        )
+
         commentList = listComment
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
     }
 
     class CommentViewHolder(

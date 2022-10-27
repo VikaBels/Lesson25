@@ -3,7 +3,7 @@ package com.example.lesson24.factories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.lesson24.repositories.DataRepository
-import com.example.lesson24.viewModels.MainViewModel
+import com.example.lesson24.viewmodels.MainViewModel
 
 class MainViewModelFactory(
     private val dataRepository: DataRepository

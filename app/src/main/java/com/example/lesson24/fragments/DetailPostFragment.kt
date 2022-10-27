@@ -40,9 +40,13 @@ class DetailPostFragment : Fragment() {
         val bindingDetailPostFragment = FragmentDetailPostBinding.inflate(layoutInflater)
         this.bindingDetailPostFragment = bindingDetailPostFragment
 
-        checkItemPost(bindingDetailPostFragment, readObjectPost())
-
         return bindingDetailPostFragment.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        checkItemPost(readObjectPost())
     }
 
     override fun onDestroyView() {
@@ -55,12 +59,12 @@ class DetailPostFragment : Fragment() {
         detailScreenNavigationListener = null
     }
 
-    private fun checkItemPost(bindingDetailPost: FragmentDetailPostBinding, itemPost: PostInfo?) {
+    private fun checkItemPost(itemPost: PostInfo?) {
         if (itemPost != null) {
             setDetailPost(itemPost)
-            setupListeners(bindingDetailPost, itemPost.id)
+            setupListeners(itemPost.id)
         } else {
-            changeVisibility(bindingDetailPost)
+            changeVisibility()
         }
     }
 
@@ -77,9 +81,11 @@ class DetailPostFragment : Fragment() {
         }
     }
 
-    private fun setupListeners(bindingDetailPost: FragmentDetailPostBinding, id: Long) {
-        bindingDetailPost.buttonComments.setOnClickListener {
-            startListCommentActivity(id)
+    private fun setupListeners(id: Long) {
+        bindingDetailPostFragment?.apply {
+            buttonComments.setOnClickListener {
+                startListCommentActivity(id)
+            }
         }
     }
 
@@ -87,7 +93,9 @@ class DetailPostFragment : Fragment() {
         detailScreenNavigationListener?.showComments(id)
     }
 
-    private fun changeVisibility(bindingDetailPost: FragmentDetailPostBinding) {
-        bindingDetailPost.noInfo.isVisible = true
+    private fun changeVisibility() {
+        bindingDetailPostFragment?.apply {
+            noInfo.isVisible = true
+        }
     }
 }

@@ -17,7 +17,7 @@ import com.example.lesson24.factories.MainViewModelFactory
 import com.example.lesson24.listeners.PostListener
 import com.example.lesson24.listeners.PostsScreenNavigationListener
 import com.example.lesson24.models.PostInfo
-import com.example.lesson24.viewModels.MainViewModel
+import com.example.lesson24.viewmodels.MainViewModel
 
 class ListPostFragment : Fragment(), PostListener {
     companion object {
@@ -50,6 +50,12 @@ class ListPostFragment : Fragment(), PostListener {
         val bindingListPostBinding = FragmentListPostBinding.inflate(layoutInflater)
         this.bindingListPostFragment = bindingListPostBinding
 
+        return bindingListPostBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         postAdapter = PostAdapter(this)
 
         setUpAdapter()
@@ -58,9 +64,7 @@ class ListPostFragment : Fragment(), PostListener {
 
         observeListPost()
 
-        setUpListeners(bindingListPostBinding)
-
-        return bindingListPostBinding.root
+        setUpListeners()
     }
 
     override fun onDestroyView() {
@@ -107,9 +111,11 @@ class ListPostFragment : Fragment(), PostListener {
         }
     }
 
-    private fun setUpListeners(bindingMain: FragmentListPostBinding) {
-        bindingMain.buttonStatistic.setOnClickListener {
-            postsScreenNavigationListener?.showStatistic()
+    private fun setUpListeners() {
+        bindingListPostFragment?.apply {
+            buttonStatistic.setOnClickListener {
+                postsScreenNavigationListener?.showStatistic()
+            }
         }
     }
 }

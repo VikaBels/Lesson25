@@ -1,9 +1,7 @@
-package com.example.lesson24.viewModels
+package com.example.lesson24.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import bolts.CancellationTokenSource
 import bolts.Task
 import com.example.lesson24.R
 import com.example.lesson24.models.CommentInfo
@@ -14,9 +12,7 @@ import com.example.lesson24.utils.getIdError
 class CommentViewModel(
     private val dataRepository: DataRepository,
     private val idCurrentPost: Long?
-) : ViewModel() {
-    private val cancellationTokenSourceComment = CancellationTokenSource()
-
+) : BaseViewModel() {
     private val listCommentInfo = MutableLiveData<List<CommentInfo>>()
     private val uiError = MutableLiveData<UIError>()
 
@@ -30,15 +26,10 @@ class CommentViewModel(
         startCommentTask()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        cancellationTokenSourceComment.cancel()
-    }
-
     private fun startCommentTask() {
         if (idCurrentPost != null) {
-           dataRepository.getAllCommentTask(
-                cancellationTokenSourceComment.token,
+            dataRepository.getAllCommentTask(
+                getToken(),
                 idCurrentPost
             ).continueWith({
 
@@ -58,7 +49,7 @@ class CommentViewModel(
 
     fun upDateRateComment(idComment: Long, commentRate: Long) {
         dataRepository.updateCurrentCommentTask(
-            cancellationTokenSourceComment.token,
+            getToken(),
             idComment,
             commentRate
         ).continueWith({

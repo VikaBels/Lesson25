@@ -1,9 +1,7 @@
-package com.example.lesson24.viewModels
+package com.example.lesson24.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import bolts.CancellationTokenSource
 import bolts.Task
 import com.example.lesson24.models.PostStatistic
 import com.example.lesson24.models.UIError
@@ -12,9 +10,7 @@ import com.example.lesson24.utils.getIdError
 
 class StatisticViewModel(
     private val dataRepository: DataRepository
-) : ViewModel() {
-    private val cancellationTokenSourceStatistic = CancellationTokenSource()
-
+) : BaseViewModel() {
     private var list = MutableLiveData<List<PostStatistic>>()
     private var uiError = MutableLiveData<UIError>()
 
@@ -28,14 +24,9 @@ class StatisticViewModel(
         startStatisticTask()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        cancellationTokenSourceStatistic.cancel()
-    }
-
     private fun startStatisticTask() {
         dataRepository.getAllPostStatisticTask(
-            cancellationTokenSourceStatistic.token,
+            getToken(),
         ).continueWith({
 
             if (it.result != null) {

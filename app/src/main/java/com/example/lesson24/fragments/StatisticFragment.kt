@@ -13,7 +13,7 @@ import com.example.lesson24.R
 import com.example.lesson24.adapters.PostStatisticAdapter
 import com.example.lesson24.databinding.FragmentStatisticBinding
 import com.example.lesson24.factories.StatisticViewModelFactory
-import com.example.lesson24.viewModels.StatisticViewModel
+import com.example.lesson24.viewmodels.StatisticViewModel
 
 class StatisticFragment : Fragment() {
     companion object {
@@ -38,13 +38,17 @@ class StatisticFragment : Fragment() {
         val bindingStatistic = FragmentStatisticBinding.inflate(layoutInflater)
         this.bindingStatistic = bindingStatistic
 
+        return bindingStatistic.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setUpAdapter()
 
         observeErrorDB()
 
         observeListPost()
-
-        return bindingStatistic.root
     }
 
     override fun onDestroyView() {

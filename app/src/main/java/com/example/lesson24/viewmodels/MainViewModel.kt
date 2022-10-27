@@ -1,9 +1,7 @@
-package com.example.lesson24.viewModels
+package com.example.lesson24.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import bolts.CancellationTokenSource
 import bolts.Task
 import com.example.lesson24.models.PostInfo
 import com.example.lesson24.models.UIError
@@ -12,9 +10,7 @@ import com.example.lesson24.utils.getIdError
 
 class MainViewModel(
     private val dataRepository: DataRepository
-) : ViewModel() {
-    private val cancellationTokenSourceMain = CancellationTokenSource()
-
+) : BaseViewModel() {
     private var listPostInfo = MutableLiveData<List<PostInfo>>()
     private var uiError = MutableLiveData<UIError>()
 
@@ -28,19 +24,13 @@ class MainViewModel(
         startMainTask()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        cancellationTokenSourceMain.cancel()
-    }
-
     private fun startMainTask() {
         dataRepository.getAllPostsTask(
-            cancellationTokenSourceMain.token,
+            getToken(),
         ).continueWith({
 
-            if(it.result != null){
+            if (it.result != null) {
                 listPostInfo.value = it.result
-
             }
 
             if (it.error != null) {
