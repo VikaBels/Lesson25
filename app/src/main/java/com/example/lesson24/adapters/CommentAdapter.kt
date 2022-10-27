@@ -30,7 +30,7 @@ class CommentAdapter(
 
     fun setListComment(listComment: List<CommentInfo>) {
         val result = DiffUtil.calculateDiff(
-            DiffUtilsCommentCallBack(commentList, listComment), false
+            DiffUtilsCommentCallBack(commentList, listComment), true
         )
 
         commentList = listComment

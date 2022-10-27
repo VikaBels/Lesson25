@@ -29,7 +29,7 @@ class PostStatisticAdapter : RecyclerView.Adapter<PostStatisticAdapter.PostStati
 
     fun setListStatistic(listStatistic: List<PostStatistic>) {
         val result = DiffUtil.calculateDiff(
-            DiffUtilsStatisticCallBack(postStatisticList, listStatistic), false
+            DiffUtilsStatisticCallBack(postStatisticList, listStatistic), true
         )
 
         postStatisticList = listStatistic

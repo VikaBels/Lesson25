@@ -30,7 +30,7 @@ class PostAdapter(
 
     fun setListItems(listPost: List<PostInfo>) {
         val result = DiffUtil.calculateDiff(
-            DiffUtilsPostCallBack(postList, listPost), false
+            DiffUtilsPostCallBack(postList, listPost), true
         )
 
         postList = listPost
