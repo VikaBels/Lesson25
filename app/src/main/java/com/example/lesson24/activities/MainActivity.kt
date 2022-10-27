@@ -61,25 +61,26 @@ class MainActivity : AppCompatActivity(),
 
     private fun showListPost() {
         val fragment = ListPostFragment.newInstance()
-        showFragment(TAG_FOR_LIST_POST, fragment)
+        showFragment(TAG_FOR_LIST_POST, fragment, false)
     }
 
     private fun showFragment(
         tag: String,
         fragment: Fragment,
+        isAddToBackStack: Boolean = true
     ) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
 
-        when (tag) {
-            TAG_FOR_LIST_POST -> {
+        when {
+            isAddToBackStack -> {
                 transaction.replace(R.id.container, fragment, tag)
+                    .addToBackStack(tag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit()
             }
             else -> {
                 transaction.replace(R.id.container, fragment, tag)
-                    .addToBackStack(tag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit()
             }

@@ -11,8 +11,8 @@ import com.example.lesson24.utils.getIdError
 class StatisticViewModel(
     private val dataRepository: DataRepository
 ) : BaseViewModel() {
-    private var list = MutableLiveData<List<PostStatistic>>()
-    private var uiError = MutableLiveData<UIError>()
+    private val list = MutableLiveData<List<PostStatistic>>()
+    private val uiError = MutableLiveData<UIError>()
 
     val listPostStatistic: LiveData<List<PostStatistic>>
         get() = list

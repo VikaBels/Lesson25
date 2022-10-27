@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lesson24.App.Companion.getInstance
 import com.example.lesson24.R
 import com.example.lesson24.databinding.ItemPostStatisticBinding
 import com.example.lesson24.models.PostStatistic
@@ -41,9 +40,10 @@ class PostStatisticAdapter : RecyclerView.Adapter<PostStatisticAdapter.PostStati
         private val binding: ItemPostStatisticBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val resources = getInstance().resources
+        private val resources = binding.root.context.resources
 
         fun bind(postStatisticItem: PostStatistic) {
+
             binding.title.text = resources.getString(R.string.post_title, postStatisticItem.title)
 
             binding.quantity.text = resources.getString(

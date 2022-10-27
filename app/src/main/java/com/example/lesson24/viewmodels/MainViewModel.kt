@@ -11,8 +11,8 @@ import com.example.lesson24.utils.getIdError
 class MainViewModel(
     private val dataRepository: DataRepository
 ) : BaseViewModel() {
-    private var listPostInfo = MutableLiveData<List<PostInfo>>()
-    private var uiError = MutableLiveData<UIError>()
+    private val listPostInfo = MutableLiveData<List<PostInfo>>()
+    private val uiError = MutableLiveData<UIError>()
 
     val listPost: LiveData<List<PostInfo>>
         get() = listPostInfo

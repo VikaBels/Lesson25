@@ -134,10 +134,7 @@ class DatabaseHelper(
                     "email TEXT NOT NULL );"
         )
 
-        compileStatementCreator(
-            db,
-            "INSERT INTO _tmp_user (_id, full_name, email) SELECT _id, first_name || ' ' || last_name, email FROM user;"
-        ).executeInsert()
+        db.execSQL("INSERT INTO _tmp_user (_id, full_name, email) SELECT _id, first_name || ' ' || last_name, email FROM user;")
 
         executeUpdateDeleteMethod(db, "DROP TABLE user;")
         executeUpdateDeleteMethod(db, "ALTER TABLE _tmp_user RENAME TO user;")
